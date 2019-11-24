@@ -20,3 +20,18 @@
 .App-link {
   color: #09d3ac;
 }
+
+button {
+  padding: 10px;
+  margin: 10px;
+}
+
+/* svg > * {
+  pointer-events: none;
+} */
+
+/* .waveform{
+  position: absolute;
+  top: 50px;
+  left: 50px;
+} */

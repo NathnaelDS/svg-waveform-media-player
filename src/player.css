@@ -1,0 +1,126 @@
+.seekbar {
+  transition: width 0.25s ease-out;
+}
+
+audio {
+  width: 800px;
+}
+
+.player {
+  display: grid;
+  /* grid-template-columns: 250px 100px 1024px; */
+  grid-template-columns: 175px 175px 850px 175px 175px 175px;
+  padding: 60px;
+}
+
+.details {
+  grid-column: 1/2;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  grid-template-rows: 32px 32px;
+  grid-column-gap: 20px;
+  place-items: center;
+  /* padding-left: 20%; */
+  /* border: 1px solid rgba(150, 75, 21, 0.2); */
+}
+.thumbnail {
+  grid-row: 1/3;
+  grid-column: 1/2;
+  /* border: 1px solid rgba(150, 75, 21, 0.2); */
+}
+.title {
+  grid-row: 1/2;
+  grid-column: 2/3;
+  justify-self: start;
+  align-self: end;
+  /* border: 1px solid rgba(150, 75, 21, 0.2); */
+}
+.artist {
+  grid-row: 2/3;
+  grid-column: 2/3;
+  justify-self: start;
+  align-self: start;
+  /* border: 1px solid rgba(150, 75, 21, 0.2); */
+}
+
+.playback-controls {
+  grid-column: 2/3;
+  display: grid;
+  place-items: center;
+  /* border: 1px solid rgba(150, 75, 21, 0.2); */
+}
+
+.playback-controls img {
+  padding: 20px;
+  /* border-radius: 50%; */
+  background-color: rgb(147, 212, 255);
+}
+.wave {
+  grid-column: 3/4;
+  position: relative;
+  /* border: 1px solid rgba(150, 75, 21, 0.2); */
+}
+
+.waveform {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.waveform:nth-child(2) {
+  z-index: 10;
+}
+
+.extra-controls {
+  transform: rotate(90deg);
+  background-color: #000;
+  padding: 13px 14px 10px 14px;
+}
+input[type="range"] {
+  background-color: #000;
+  height: 22px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+input[type="range"]:focus {
+  outline: none;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: #2b6a9d;
+  border-radius: 0px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  border: 2px solid #2b6a9d;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6px;
+}
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: #2b6a9d;
+}
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: #2b6a9d;
+  border-radius: 0px;
+}
+input[type="range"]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000031;
+  border: 2px solid #2b6a9d;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+}
