@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Popover, Button } from "antd";
 import PlayerContext from "./PlayerContext";
 import "./player.css";
 
@@ -11,24 +12,44 @@ class Player extends Component {
       playing: false,
       currentTime: 0,
       duration: 0,
-      volume: 30
+      volume: 0.3
     };
     this.myRef = React.createRef();
   }
 
-  showTime = () => {
+  setCurrentTime = () => {
     const audioPlayer = this.myRef.current;
     this.setState({
       currentTime: audioPlayer.currentTime,
       duration: audioPlayer.duration
     });
+  };
 
-    console.log(audioPlayer.currentTime, audioPlayer.duration);
+  showTime = () => {
+    const audioPlayer = this.myRef.current;
+
+    // If the audio metadata is not retrieved, do NOT show the track's duration
+    if (audioPlayer.readyState === 0) {
+      /* 
+        showTime is called onTimeChange which happens when audio src is changed.
+        When the audio file is changed set the seekbar(percentagePlayed) back to 0.
+        readyState is 0 before the audio file is retrieved.
+        Using this as an indication that the track has been changed
+      */
+      this.setState({ percentagePlayed: 0 });
+
+      return;
+    }
+
+    this.setCurrentTime();
+
+    // console.log(audioPlayer.currentTime, audioPlayer.duration);
     let percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
     this.setState({ percentagePlayed: percent.toFixed(5) });
   };
 
   seek = evt => {
+    evt.preventDefault();
     var e = evt.currentTarget;
     // console.log({ e });
     var dim = e.getBoundingClientRect();
@@ -53,6 +74,12 @@ class Player extends Component {
       const audioPlayer = this.myRef.current;
       this.state.playing ? audioPlayer.play() : audioPlayer.pause();
     });
+  };
+
+  setVolume = event => {
+    const audioPlayer = this.myRef.current;
+    audioPlayer.volume = event.target.value / 100;
+    this.setState({ volume: event.target.value / 100 });
   };
 
   render() {
@@ -97,7 +124,7 @@ class Player extends Component {
                   href={require(`${value.visualizationSVG}`)}
                   width="100%"
                 />
-                {console.log(value.visualizationSVG)}
+                {/* {console.log(value.visualizationSVG)} */}
               </svg>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +157,7 @@ class Player extends Component {
                       className="seekbar"
                       x="0"
                       y="0"
-                      width={this.state.percentagePlayed * 10.24}
+                      width={this.state.percentagePlayed * 8.5}
                       height="64"
                     ></rect>
                   </clipPath>
@@ -146,15 +173,65 @@ class Player extends Component {
                 this.state.duration % 60
               )}`}
             </div>
-            <div className="extra-controls">
-              <input type="range" name="volume" min="0" max="100" step="1" />
+            <div
+              className="extra-controls"
+              onMouseLeave={() => this.setState({ volumeVisible: false })}
+            >
+              <div className="volume">
+                {this.state.volumeVisible && (
+                  <input
+                    onMouseLeave={() => this.setState({ volumeVisible: false })}
+                    type="range"
+                    name="volume"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={this.state.volume * 100}
+                    onChange={this.setVolume}
+                  />
+                )}
+                <div
+                  style={{ backgroundColor: "yellow" }}
+                  onMouseEnter={() => this.setState({ volumeVisible: true })}
+                >
+                  V
+                </div>
+              </div>
+
+              <div className="playlist">P</div>
             </div>
-            <div className="actions"></div>
+            <div
+              className="actions"
+              onMouseLeave={() => this.setState({ actionsVisible: false })}
+            >
+              {this.state.actionsVisible && (
+                <div
+                  style={{
+                    backgroundColor: "yellow",
+                    position: "absolute",
+                    zIndex: 10,
+                    bottom: 160
+                  }}
+                  onMouseLeave={() => this.setState({ actionsVisible: false })}
+                >
+                  <p>Add to Cart</p>
+                  <p>Add to Favorites</p>
+                  <p>Download Preview</p>
+                </div>
+              )}
+              <div
+                style={{ backgroundColor: "yellow" }}
+                onMouseEnter={() => this.setState({ actionsVisible: true })}
+              >
+                Actions
+              </div>
+            </div>
             <audio
               ref={this.myRef}
               src={value.src}
               controls
               onTimeUpdate={this.showTime}
+              onLoadedData={this.setCurrentTime}
             ></audio>
           </div>
         )}

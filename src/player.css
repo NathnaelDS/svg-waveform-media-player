@@ -1,16 +1,19 @@
 .seekbar {
-  transition: width 0.25s ease-out;
+  /* transition: width 0.25s ease-out;
+  -moz-transition: width 0.25s ease-out; */
 }
 
 audio {
   width: 800px;
+  margin-top: 5rem;
+  grid-column: 1/4;
 }
 
 .player {
   display: grid;
   /* grid-template-columns: 250px 100px 1024px; */
-  grid-template-columns: 175px 175px 850px 175px 175px 175px;
-  padding: 60px;
+  grid-template-columns: 2fr 1fr 850px 1fr 1fr 1fr;
+  padding: 140px 0;
 }
 
 .details {
@@ -74,9 +77,30 @@ audio {
 }
 
 .extra-controls {
-  transform: rotate(90deg);
+  display: flex;
   background-color: #000;
   padding: 13px 14px 10px 14px;
+  position: relative;
+}
+.volume {
+  width: 40px;
+  height: 40px;
+  background-color: rgb(177, 177, 177);
+}
+.volume input {
+  width: 100px;
+  /* height: 100px; */
+  transform: rotate(-90deg);
+  background-color: "yellow";
+  position: absolute;
+  z-index: 10;
+  right: 20px;
+  bottom: 91px;
+}
+.playlist {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
 }
 input[type="range"] {
   background-color: #000;
